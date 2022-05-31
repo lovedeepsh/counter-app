@@ -18,5 +18,11 @@ jobs:
       - run: 
           name: Testing build
           command: ls -latrh
+      - run:
+          name: Creating Docker Image From Dockerfile
+          command: docker build -t counter:v1 .
+      - run:
+          name: Listing docker images
+          command: docker images
     
   
