@@ -31,7 +31,7 @@ jobs:
        - persist_to_workspace:
            root: /test
            paths:
-             - "*"
+             - .
           
   package:
     executor: job-executor
