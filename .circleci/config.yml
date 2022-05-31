@@ -14,7 +14,7 @@ executors:
 #         auth:
 #           username: mydockerhub-user
 #           password: $DOCKERHUB_PASSWORD
-    
+    working_directory: /test
 jobs:
   build:
     executor: job-executor
