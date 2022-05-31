@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Listing docker images
           command: docker images
-      - aws-ecr/ecr-login:
+      - aws-ecr/ecr-login
       - aws-ecr/push-image:
           repo: "counter"
           tag: "${CIRCLE_BUILD_NUM}"
