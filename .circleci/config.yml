@@ -10,19 +10,22 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: Install dependencies
-          command: npm install
-      - run:
-          name: Build Application
-          command: npm run build
-      - run: 
-          name: Testing build
-          command: ls -latrh
-      - run:
-          name: Creating Docker Image From Dockerfile
-          command: docker build -t counter:v1 .
-      - run:
-          name: Listing docker images
-          command: docker images
+          name: Testing docker
+          command: service docker status
+#       - run: 
+#           name: Install dependencies
+#           command: npm install
+#       - run:
+#           name: Build Application
+#           command: npm run build
+#       - run: 
+#           name: Testing build
+#           command: ls -latrh
+#       - run:
+#           name: Creating Docker Image From Dockerfile
+#           command: docker build -t counter:v1 .
+#       - run:
+#           name: Listing docker images
+#           command: docker images
     
   
