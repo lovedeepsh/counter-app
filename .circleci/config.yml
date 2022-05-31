@@ -30,7 +30,7 @@ jobs:
           name: Build Application
           command: npm run build
       - persist_to_workspace:
-          root: .
+          root: /tmp
           
   package:
     executor: job-executor
