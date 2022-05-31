@@ -17,12 +17,14 @@ jobs:
       - run:
           name: Build Application
           command: npm run build
-      - run: 
-          name: Testing build
-          command: ls -latrh
-      - run:
-          name: Creating Docker Image From Dockerfile
-          command: docker build -t counter:v1 .
-      - run:
-          name: Listing docker images
-          command: docker images
+  package:
+    docker:
+      - image: cimg/node:12.11.0
+    steps:
+      - run: ls -latrh
+#       - run:
+#           name: Creating Docker Image From Dockerfile
+#           command: docker build -t counter:v1 .
+#       - run:
+#           name: Listing docker images
+#           command: docker images
