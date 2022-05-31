@@ -31,6 +31,8 @@ jobs:
           command: npm run build
       - persist_to_workspace:
           root: /tmp
+          paths:
+            - *
           
   package:
     executor: job-executor
