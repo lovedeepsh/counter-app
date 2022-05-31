@@ -37,8 +37,6 @@ jobs:
     steps:
       - attach_workspace:
           at:  .
-#       - setup_remote_docker:
-#           docker_layer_caching: false
       - run:
           name: Creating Docker Image From Dockerfile
           command: |
