@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: 
           name: Testing docker
-          command: service docker status
+          command: service docker start && service docker status
 #       - run: 
 #           name: Install dependencies
 #           command: npm install
