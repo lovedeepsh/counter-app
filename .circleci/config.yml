@@ -4,6 +4,8 @@ workflows:
     jobs:
       - build
       - package
+          requires:
+            - build
 jobs:
   build:
     docker:
