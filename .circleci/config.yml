@@ -15,6 +15,10 @@ executors:
 #           username: mydockerhub-user
 #           password: $DOCKERHUB_PASSWORD
     working_directory: /test
+    
+orbs:
+  aws-ecr: circleci/aws-ecr@x.y.z
+  
 jobs:
   build:
     executor: job-executor
@@ -48,6 +52,9 @@ jobs:
       - run:
           name: Listing docker images
           command: docker images
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
 #       - run:
 #           name: Uploading image to ECR
 #           command: |
