@@ -10,8 +10,11 @@ jobs:
     steps:
       - checkout
       - run: 
+          name: Starting docker
+          command: sudo service docker start
+      - run: 
           name: Testing docker
-          command: service docker start && service docker status
+          command: service docker status
 #       - run: 
 #           name: Install dependencies
 #           command: npm install
