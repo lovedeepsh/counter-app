@@ -9,26 +9,20 @@ jobs:
       - image: cimg/node:12.11.0
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
       - run: 
-          name: Starting docker
-          command: systemctl start docker
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build Application
+          command: npm run build
       - run: 
-          name: Testing docker
-          command: service docker status
-#       - run: 
-#           name: Install dependencies
-#           command: npm install
-#       - run:
-#           name: Build Application
-#           command: npm run build
-#       - run: 
-#           name: Testing build
-#           command: ls -latrh
-#       - run:
-#           name: Creating Docker Image From Dockerfile
-#           command: docker build -t counter:v1 .
-#       - run:
-#           name: Listing docker images
-#           command: docker images
-    
-  
+          name: Testing build
+          command: ls -latrh
+      - run:
+          name: Creating Docker Image From Dockerfile
+          command: docker build -t counter:v1 .
+      - run:
+          name: Listing docker images
+          command: docker images
