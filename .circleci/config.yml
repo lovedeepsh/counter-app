@@ -3,6 +3,7 @@ workflows:
   build:
     jobs:
       - build
+      - package
 jobs:
   build:
     docker:
