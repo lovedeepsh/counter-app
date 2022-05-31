@@ -36,6 +36,7 @@ jobs:
             - .
           
   package_and_upload:
+    executor: aws-ecr/default
     steps:
       - attach_workspace:
           at:  .
