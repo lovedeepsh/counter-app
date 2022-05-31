@@ -8,17 +8,18 @@ workflows:
             - build
     
 executors:
-  job-executor:
+  build-executor:
     docker:
       - image: cimg/node:12.10.0
     working_directory: /test
+  upload-executor: aws-ecr/default
     
 orbs:
   aws-ecr: enokawa/aws-ecr@0.0.2
   
 jobs:
   build:
-    executor: job-executor
+    executor: build-executor
     steps:
       - checkout
       - run: 
@@ -33,7 +34,7 @@ jobs:
             - .
           
   package_and_upload:
-    executor: aws-ecr/default
+    executor: upload-executor
     steps:
       - attach_workspace:
           at:  .
