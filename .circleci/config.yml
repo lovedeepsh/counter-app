@@ -13,8 +13,7 @@ executors:
       - image: cimg/node:12.11.0
 #         auth:
 #           username: mydockerhub-user
-#           password: $DOCKERHUB_PASSWORD  
-    working_directory: /opt
+#           password: $DOCKERHUB_PASSWORD
     
 jobs:
   build:
