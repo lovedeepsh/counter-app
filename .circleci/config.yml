@@ -29,16 +29,16 @@ jobs:
       - run:
           name: Build Application
           command: npm run build
-      - persist_to_workspace:
-          root: /tmp
-          paths:
-            - "*"
+#       - persist_to_workspace:
+#           root: /tmp
+#           paths:
+#             - "*"
           
   package:
     executor: job-executor
     steps:
-      - attach_workspace:
-          at: /tmp
+#       - attach_workspace:
+#           at: /tmp
       - run: ls -latrh
 #       - run:
 #           name: Creating Docker Image From Dockerfile
