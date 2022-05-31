@@ -3,7 +3,7 @@ workflows:
   build:
     jobs:
       - build
-      - package
+      - package:
           requires:
             - build
 jobs:
