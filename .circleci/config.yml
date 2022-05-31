@@ -11,9 +11,6 @@ executors:
   job-executor:
     docker:
       - image: cimg/node:12.10.0
-#         auth:
-#           username: mydockerhub-user
-#           password: $DOCKERHUB_PASSWORD
     working_directory: /test
     
 orbs:
