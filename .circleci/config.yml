@@ -17,7 +17,7 @@ executors:
     working_directory: /test
     
 orbs:
-  aws-ecr: circleci/aws-ecr@x.y.z
+  aws-ecr: circleci/aws-ecr@8.1.2
   
 jobs:
   build:
