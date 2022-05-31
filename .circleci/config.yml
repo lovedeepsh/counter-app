@@ -14,7 +14,7 @@ executors:
 #         auth:
 #           username: mydockerhub-user
 #           password: $DOCKERHUB_PASSWORD  
-    working_directory: /tmp
+    working_directory: /opt
     
 jobs:
   build:
