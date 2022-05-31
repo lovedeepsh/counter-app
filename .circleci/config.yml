@@ -36,8 +36,8 @@ jobs:
   package:
     executor: job-executor
     steps:
-       - attach_workspace:
-           at:  .
+      - attach_workspace:
+          at:  .
       - run: ls -latrh
 #       - run:
 #           name: Creating Docker Image From Dockerfile
