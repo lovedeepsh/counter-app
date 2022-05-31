@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Creating Docker Image From Dockerfile
           command: |
-            echo 'export TAG=${CIRCLE_BUILD_NUM}' >> ${BASH_ENV}
+            echo 'export TAG=${CIRCLE_PIPELINE_NUM}' >> ${BASH_ENV}
             echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
             source ${BASH_ENV}
             docker build -t ${IMAGE_NAME}:${TAG} .
@@ -51,13 +51,7 @@ jobs:
       - aws-ecr/ecr-login
       - aws-ecr/push-image:
           repo: "counter"
-          tag: "${CIRCLE_BUILD_NUM}"
-#       - aws-ecr/build-and-push-image:
-#           create-repo: false
-#           dockerfile: Dockerfile
-#           path: .
-#           repo: counter
-#           tag: "${CIRCLE_BUILD_NUM}"
+          tag: "${CIRCLE_PIPELINE_NUM}"
       - run:
           name: Listing docker images
           command: docker images
