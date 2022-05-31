@@ -55,6 +55,7 @@ jobs:
       - aws-ecr/push-image:
           repo: "counter"
           tag: "${CIRCLE_BUILD_NUM}"
+      - run: docker images
 #       - run:
 #           name: Uploading image to ECR
 #           command: |
