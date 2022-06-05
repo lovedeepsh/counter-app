@@ -6,9 +6,6 @@ workflows:
       - package_and_upload:
           requires:
             - build
-      - deploy:
-          requires:
-            - package_and_upload
     
 executors:
   build-executor:
