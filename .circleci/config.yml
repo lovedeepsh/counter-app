@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  aws-ecr: circleci/aws-ecr@0.0.4
-
 workflows:
   build:
     jobs:
@@ -37,8 +34,7 @@ jobs:
 
 
   package_and_upload:
-    docker:
-      - image: circleci/python:2.7.14
+    executor: upload-executor
     steps:
       - attach_workspace:
           at:  .
