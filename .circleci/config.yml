@@ -9,7 +9,7 @@ workflows:
             - build
  
 orbs:
-  aws-ecr: circleci/aws-ecr@0.0.4
+  aws-ecr: enokawa/aws-ecr@0.0.4
 
 executors:
   build-executor:
