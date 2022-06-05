@@ -1,53 +1,31 @@
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@8.1.2
+  
 workflows:
   build:
     jobs:
       - build
-      - package_and_upload:
+      - aws-ecr/build_and_push_image:
+          region: us-east-1
+          account-url: ${AWS_ECR_ACCOUNT_URL}
+          repo: counter
+          tag: v1.1.2
           requires:
             - build
- 
-orbs:
-  aws-ecr: enokawa/aws-ecr@0.0.2
+
 
 executors:
-  build-executor:
+  test-executor:
     docker:
       - image: cimg/node:12.10.0
-    working_directory: /test
-  upload-executor: 
-    docker:
-      - image: circleci/ecr-login
   
 jobs:
-  build:
-    executor: build-executor
+  test:
+    executor: test-executor
     steps:
       - checkout
       - run: 
           name: Install dependencies
-          command: npm install
-      - run:
-          name: Build Application
-          command: npm run build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
-
-  package_and_upload:
-    executor: upload-executor
-    steps:
-      - attach_workspace:
-          at:  .
-      - aws-ecr/ecr-login
-      - run:
-          name: Build and push Docker image to ECR
-          command: |
-            echo 'export TAG=${TAG}' >> ${BASH_ENV}
-            echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
-            source ${BASH_ENV}
-            docker build ${IMAGE_NAME}:${TAG} .
-            docker push ${IMAGE_NAME}:${TAG}
+          command: npm run test
