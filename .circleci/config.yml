@@ -43,13 +43,6 @@ jobs:
       - attach_workspace:
           at:  .
       - run:
-          name: Creating Docker Image From Dockerfile
-          command: |
-            echo 'export TAG=${TAG}' >> ${BASH_ENV}
-            echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
-            source ${BASH_ENV}
-            docker build -t ${IMAGE_NAME}:${TAG} .
-      - run:
           name: Listing docker images
           command: docker images
       - aws-ecr/ecr-login
@@ -61,6 +54,6 @@ jobs:
             echo 'export TAG=${TAG}' >> ${BASH_ENV}
             echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
             source ${BASH_ENV}
-            docker build ${IMAGE_NAME}:${TAG} .
+            docker build -t ${IMAGE_NAME}:${TAG} .
             docker push ${IMAGE_NAME}:${TAG}
 
