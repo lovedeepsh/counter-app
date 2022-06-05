@@ -6,20 +6,26 @@ orbs:
   
 workflows:
   build:
-    environment:
-      REPO: "counter"
-      TAG: "v1.1.1"
-      ENV: "development"
-      ECS_CLUSTER: "counter"
-      SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
     jobs:
       - build
       - package_and_upload:
           requires:
             - build
+          environment:
+            REPO: "counter"
+            TAG: "v1.1.1"
+            ENV: "development"
+            ECS_CLUSTER: "counter"
+            SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
       - aws-ecs/deploy-service-update:
           requires:
             - package_and_upload
+          environment:
+            REPO: "counter"
+            TAG: "v1.1.1"
+            ENV: "development"
+            ECS_CLUSTER: "counter"
+            SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
           family: "${SERVICE}-service"
           cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
           container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
