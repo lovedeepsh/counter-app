@@ -1,9 +1,4 @@
 version: 2.1
-
-parameters:
-  TAG:
-    type: string
-    default: "v1.0.1"
     
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
@@ -21,11 +16,11 @@ workflows:
           push-image: true
           repo: counter
           skip-when-tags-exist: true
-          tag: '${TAG}'
+          tag: 'v1.0.1'
       - aws-ecs/deploy-service-update:
           aws-region: AWS_REGION
           cluster-name: 'counter-development-cluster'
-          container-image-name-updates: 'container=counter-development-container,tag=${TAG}'
+          container-image-name-updates: 'container=counter-development-container,tag=v1.0.1'
           family: 'counter-task'
           service-name: 'counter-development-ecs-service'
           requires:
