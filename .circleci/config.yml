@@ -1,4 +1,9 @@
 version: 2.1
+
+orbs:
+  aws-ecr: enokawa/aws-ecr@0.0.2
+  aws-ecs: circleci/aws-ecs@2.2.1
+  
 workflows:
   build:
     environment:
@@ -12,9 +17,12 @@ workflows:
       - package_and_upload:
           requires:
             - build
-      - deploy:
+      - aws-ecs/deploy-service-update:
           requires:
             - package_and_upload
+          family: "${SERVICE}-service"
+          cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
+          container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
     
 executors:
   build-executor:
@@ -22,10 +30,6 @@ executors:
       - image: cimg/node:12.10.0
     working_directory: /test
   upload-executor: aws-ecr/default
-    
-orbs:
-  aws-ecr: enokawa/aws-ecr@0.0.2
-  aws-ecs: circleci/aws-ecs@2.2.1
   
 jobs:
   build:
@@ -66,10 +70,3 @@ jobs:
           name: Listing docker images
           command: docker images
 
-  deploy:
-    executor: upload-executor
-    steps:
-      - aws-ecs/deploy-service-update:
-          family: "${SERVICE}-service"
-          cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
-          container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
