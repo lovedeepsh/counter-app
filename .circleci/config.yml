@@ -6,6 +6,9 @@ workflows:
       - package_and_upload:
           requires:
             - build
+      - deploy:
+          requires:
+            - package_and_upload
     
 executors:
   build-executor:
@@ -62,6 +65,8 @@ jobs:
       - run:
           name: Listing docker images
           command: docker images
+  deploy:
+    steps:
       - aws-ecs/deploy-service-update:
           family: "${SERVICE}-service"
           cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
