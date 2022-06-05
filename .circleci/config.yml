@@ -1,26 +1,15 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@8.1.2
   aws-ecs: circleci/aws-ecs@2.2.1
   
 workflows:
   build_and_push_image:
     jobs:
-      - aws-ecr/build-and-push-image:
-          aws-cli-version: latest
-          context: myContext
-          create-repo: false
-          dockerfile: Dockerfile
-          executor: aws-ecr/default
-          push-image: true
-          repo: counter
-          skip-when-tags-exist: true
-          tag: 'v1.0.0'
       - aws-ecs/deploy-service-update:
           aws-region: AWS_REGION
           cluster-name: 'counter-development-cluster'
-          container-image-name-updates: 'container=counter-service,tag=v1.0.0'
-          family: 'counter-service'
+          container-image-name-updates: 'container=counter-task,tag=v1.0.0'
+          family: 'counter-task'
           requires:
             - aws-ecr/build-and-push-image
