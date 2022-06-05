@@ -16,7 +16,9 @@ executors:
     docker:
       - image: cimg/node:12.10.0
     working_directory: /test
-  upload-executor: aws-ecr/default
+  upload-executor: 
+    docker:
+    - image: aws-ecr/default
   
 jobs:
   build:
