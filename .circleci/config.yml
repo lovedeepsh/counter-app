@@ -10,12 +10,6 @@ workflows:
       - package_and_upload:
           requires:
             - build
-      - aws-ecs/deploy-service-update:
-          requires:
-            - package_and_upload
-          family: "${SERVICE}-service"
-          cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
-          container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
  
   
 executors:
