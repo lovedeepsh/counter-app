@@ -65,7 +65,9 @@ jobs:
       - run:
           name: Listing docker images
           command: docker images
+
   deploy:
+    executor: upload-executor
     steps:
       - aws-ecs/deploy-service-update:
           family: "${SERVICE}-service"
