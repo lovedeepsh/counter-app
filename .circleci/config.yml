@@ -1,6 +1,12 @@
 version: 2.1
 workflows:
   build:
+    environment:
+      REPO: "counter"
+      TAG: "v1.1.1"
+      ENV: "development"
+      ECS_CLUSTER: "counter"
+      SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
     jobs:
       - build
       - package_and_upload:
@@ -24,12 +30,6 @@ orbs:
 jobs:
   build:
     executor: build-executor
-    environment:
-      REPO: "counter"
-      TAG: "v1.1.1"
-      ENV: "development"
-      ECS_CLUSTER: "counter"
-      SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
     steps:
       - checkout
       - run: 
