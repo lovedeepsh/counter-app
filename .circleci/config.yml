@@ -1,9 +1,22 @@
 version: 2.1
 
-orbs:
-  aws-ecr: enokawa/aws-ecr@0.0.2
-  aws-ecs: circleci/aws-ecs@2.2.1
-  
+parameters:
+  REPO:
+    type: string
+    default: "counter"
+  TAG:
+    type: string
+    default: "v1.2.1"
+  ENV:
+    type: string
+    default: "development"
+  ECS_CLUSTER:
+    type: string
+    default: "${REPO}"
+  SERVICE:
+    type: string
+    default: "${ECS_CLUSTER}-${ENV}-ecs"
+
 workflows:
   build:
     jobs:
@@ -17,7 +30,11 @@ workflows:
           family: "${SERVICE}-service"
           cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
           container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
-    
+ 
+orbs:
+  aws-ecr: enokawa/aws-ecr@0.0.2
+  aws-ecs: circleci/aws-ecs@2.2.1
+  
 executors:
   build-executor:
     docker:
@@ -43,12 +60,6 @@ jobs:
           
   package_and_upload:
     executor: upload-executor
-    environment:
-      REPO: "counter"
-      TAG: "v1.1.1"
-      ENV: "development"
-      ECS_CLUSTER: "counter"
-      SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
     steps:
       - attach_workspace:
           at:  .
