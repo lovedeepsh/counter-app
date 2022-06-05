@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@0.0.4
+
 workflows:
   build:
     jobs:
@@ -6,16 +10,20 @@ workflows:
       - package_and_upload:
           requires:
             - build
-    
+      - aws-ecs/deploy-service-update:
+          requires:
+            - package_and_upload
+          family: "${SERVICE}-service"
+          cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
+          container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
+ 
+  
 executors:
   build-executor:
     docker:
       - image: cimg/node:12.10.0
     working_directory: /test
   upload-executor: aws-ecr/default
-    
-orbs:
-  aws-ecr: enokawa/aws-ecr@0.0.2
   
 jobs:
   build:
@@ -32,16 +40,18 @@ jobs:
           root: .
           paths:
             - .
-          
+
+
   package_and_upload:
-    executor: upload-executor
+    docker:
+      - image: circleci/python:2.7.14
     steps:
       - attach_workspace:
           at:  .
       - run:
           name: Creating Docker Image From Dockerfile
           command: |
-            echo 'export TAG=${CIRCLE_BUILD_NUM}' >> ${BASH_ENV}
+            echo 'export TAG=${TAG}' >> ${BASH_ENV}
             echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
             source ${BASH_ENV}
             docker build -t ${IMAGE_NAME}:${TAG} .
@@ -49,9 +59,14 @@ jobs:
           name: Listing docker images
           command: docker images
       - aws-ecr/ecr-login
-      - aws-ecr/push-image:
-          repo: "counter"
-          tag: "${CIRCLE_BUILD_NUM}"
+      - setup_remote_docker:
+          docker_layer_caching: false
       - run:
-          name: Listing docker images
-          command: docker images
+          name: Build and push Docker image to Docker Hub
+          command: |
+            echo 'export TAG=${TAG}' >> ${BASH_ENV}
+            echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
+            source ${BASH_ENV}
+            docker build ${IMAGE_NAME}:${TAG} .
+            docker push ${IMAGE_NAME}:${TAG}
+
