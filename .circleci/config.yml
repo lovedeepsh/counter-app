@@ -13,7 +13,6 @@ workflows:
           dockerfile: Dockerfile
           executor: aws-ecr/default
           push-image: true
-          registry-id: 438413248147.dkr.ecr.us-east-1.amazonaws.com
           repo: counter
           skip-when-tags-exist: true
           tag: 'v1.0.0'
