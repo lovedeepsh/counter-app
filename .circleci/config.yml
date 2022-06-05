@@ -11,3 +11,4 @@ workflows:
           cluster-name: 'counter-development-cluster'
           container-image-name-updates: 'container=counter-development-container,tag=v1.0.0'
           family: 'counter-task'
+          service-name: 'counter-development-ecs-service'
