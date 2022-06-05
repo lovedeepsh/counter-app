@@ -6,7 +6,11 @@ COPY . .
 
 RUN npm install
 
+RUN ls -latrh
+
 RUN npm build
+
+RUN ls -latrh
 
 EXPOSE 3000
 
