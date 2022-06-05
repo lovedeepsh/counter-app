@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
+  aws-ecs: circleci/aws-ecs@2.2.1
   
 workflows:
   build_and_push_image:
@@ -16,3 +17,9 @@ workflows:
           repo: counter
           skip-when-tags-exist: true
           tag: 'v1.0.0'
+      - aws-ecs/deploy-service-update:
+          cluster-name: 'counter-development-cluster'
+          container-image-name-updates: 'container=counter-development-ecs-service,tag=v1.0.0'
+          family: 'counter-development-ecs-service'
+          requires:
+            - aws-ecr/build-and-push-image
