@@ -18,6 +18,7 @@ workflows:
           skip-when-tags-exist: true
           tag: 'v1.0.0'
       - aws-ecs/deploy-service-update:
+          aws-region: AWS_REGION
           cluster-name: 'counter-development-cluster'
           container-image-name-updates: 'container=counter-development-ecs-service,tag=v1.0.0'
           family: 'counter-development-ecs-service'
