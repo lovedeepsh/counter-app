@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN  npm run build
+RUN  npm build
 
 EXPOSE 3000
 
