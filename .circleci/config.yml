@@ -6,6 +6,9 @@ workflows:
       - package_and_upload:
           requires:
             - build
+      - deploy:
+          requires:
+            - package_and_upload
     
 executors:
   build-executor:
@@ -16,10 +19,17 @@ executors:
     
 orbs:
   aws-ecr: enokawa/aws-ecr@0.0.2
+  aws-ecs: circleci/aws-ecs@2.2.1
   
 jobs:
   build:
     executor: build-executor
+    environment:
+      REPO: "counter"
+      TAG: "v1.1.1"
+      ENV: "development"
+      ECS_CLUSTER: "counter"
+      SERVICE: "${ECS_CLUSTER}-${ENV}-ecs"
     steps:
       - checkout
       - run: 
@@ -41,7 +51,7 @@ jobs:
       - run:
           name: Creating Docker Image From Dockerfile
           command: |
-            echo 'export TAG=${CIRCLE_BUILD_NUM}' >> ${BASH_ENV}
+            echo 'export TAG=${TAG}' >> ${BASH_ENV}
             echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
             source ${BASH_ENV}
             docker build -t ${IMAGE_NAME}:${TAG} .
@@ -50,8 +60,12 @@ jobs:
           command: docker images
       - aws-ecr/ecr-login
       - aws-ecr/push-image:
-          repo: "counter"
+          repo: ${REPO}
           tag: "${CIRCLE_BUILD_NUM}"
       - run:
           name: Listing docker images
           command: docker images
+      - aws-ecs/deploy-service-update:
+          family: "${SERVICE}-service"
+          cluster-name: "${EC_CLUSTER}-${ENV}-cluster"
+          container-image-name-updates: "container=${REPO}-service,tag=${TAG}"
