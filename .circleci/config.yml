@@ -18,7 +18,7 @@ executors:
     working_directory: /test
   upload-executor: 
     docker:
-    - image: aws-ecr/default
+      - image: aws-ecr/default
   
 jobs:
   build:
