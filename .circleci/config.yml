@@ -38,8 +38,6 @@ jobs:
     steps:
       - attach_workspace:
           at:  .
-      - setup_remote_docker:
-          docker_layer_caching: false
       - aws-ecr/ecr-login
       - run:
           name: Build and push Docker image to ECR
