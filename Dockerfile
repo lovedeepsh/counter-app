@@ -8,7 +8,7 @@ RUN npm install
 
 RUN ls -latrh
 
-RUN npm build
+RUN npm run-script build
 
 RUN ls -latrh
 
