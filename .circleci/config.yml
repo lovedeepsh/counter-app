@@ -1,10 +1,4 @@
 version: 2.1
-
-parameters:
-  TAG:
-    type: string
-    default: "v1.2.1"
-
 workflows:
   build:
     jobs:
@@ -12,16 +6,16 @@ workflows:
       - package_and_upload:
           requires:
             - build
- 
-orbs:
-  aws-ecr: enokawa/aws-ecr@0.0.2
-  
+    
 executors:
   build-executor:
     docker:
       - image: cimg/node:12.10.0
     working_directory: /test
   upload-executor: aws-ecr/default
+    
+orbs:
+  aws-ecr: enokawa/aws-ecr@0.0.2
   
 jobs:
   build:
@@ -47,7 +41,7 @@ jobs:
       - run:
           name: Creating Docker Image From Dockerfile
           command: |
-            echo 'export TAG=${TAG}' >> ${BASH_ENV}
+            echo 'export TAG=${CIRCLE_BUILD_NUM}' >> ${BASH_ENV}
             echo 'export IMAGE_NAME=438413248147.dkr.ecr.us-east-1.amazonaws.com/counter' >> ${BASH_ENV}
             source ${BASH_ENV}
             docker build -t ${IMAGE_NAME}:${TAG} .
@@ -56,9 +50,8 @@ jobs:
           command: docker images
       - aws-ecr/ecr-login
       - aws-ecr/push-image:
-          repo: ${REPO}
+          repo: "counter"
           tag: "${CIRCLE_BUILD_NUM}"
       - run:
           name: Listing docker images
           command: docker images
-
