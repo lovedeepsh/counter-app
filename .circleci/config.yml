@@ -9,5 +9,5 @@ workflows:
       - aws-ecs/deploy-service-update:
           aws-region: AWS_REGION
           cluster-name: 'counter-development-cluster'
-          container-image-name-updates: 'container=counter-task,tag=v1.0.0'
+          container-image-name-updates: 'container=counter-development-container,tag=v1.0.0'
           family: 'counter-task'
