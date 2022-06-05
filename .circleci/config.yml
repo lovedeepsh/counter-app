@@ -8,7 +8,9 @@ workflows:
           requires:
             - build
  
-  
+orbs:
+  aws-ecr: circleci/aws-ecr@0.0.4
+
 executors:
   build-executor:
     docker:
