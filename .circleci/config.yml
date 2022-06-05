@@ -22,6 +22,5 @@ workflows:
           cluster-name: 'counter-development-cluster'
           container-image-name-updates: 'container=counter-development-ecs-service,tag=v1.0.0'
           family: 'counter-development-ecs-service'
-          task-definition: 'counter-task'
           requires:
             - aws-ecr/build-and-push-image
