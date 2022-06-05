@@ -20,7 +20,7 @@ workflows:
       - aws-ecs/deploy-service-update:
           aws-region: AWS_REGION
           cluster-name: 'counter-development-cluster'
-          container-image-name-updates: 'container=counter-development-ecs-service,tag=v1.0.0'
-          family: 'counter-development-ecs-service'
+          container-image-name-updates: 'container=counter-service,tag=v1.0.0'
+          family: 'counter-service'
           requires:
             - aws-ecr/build-and-push-image
